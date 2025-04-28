@@ -1,0 +1,16 @@
+# Request: Confusion state and context information
+confusion_detection/ConfusionState confusion_state
+string current_topic
+string[] conversation_history
+float32 confusion_duration
+int32 previous_repair_attempts
+string[] previous_strategies_used
+
+---
+
+# Response: Selected repair strategy and parameters
+string strategy_name
+string[] strategy_parameters
+string repair_message
+float32 confidence
+bool escalate_to_human

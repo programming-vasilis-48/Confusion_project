@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Parameters -->
+  <arg name="camera_topic" default="/camera/color/image_raw" />
+  <arg name="min_confusion_score" default="0.6" />
+  <arg name="min_confidence" default="0.7" />
+  <arg name="max_repair_attempts" default="3" />
+  <arg name="repair_cooldown" default="5.0" />
+
+  <!-- Face Detector Node -->
+  <node name="face_detector_node" pkg="confusion_detection" type="face_detector_node.py" output="screen">
+    <param name="camera_topic" value="$(arg camera_topic)" />
+    <param name="detection_frequency" value="10" />
+    <param name="face_detection_threshold" value="0.7" />
+  </node>
+
+  <!-- Feature Extractor Node -->
+  <node name="feature_extractor_node" pkg="confusion_detection" type="feature_extractor_node.py" output="screen">
+    <param name="processing_frequency" value="10" />
+  </node>
+
+  <!-- Confusion Classifier Node -->
+  <node name="confusion_classifier_node" pkg="confusion_detection" type="confusion_classifier_node.py" output="screen">
+    <param name="classification_frequency" value="5" />
+    <param name="confusion_threshold" value="$(arg min_confusion_score)" />
+    <param name="min_confidence" value="$(arg min_confidence)" />
+    <param name="temporal_window" value="3.0" />
+  </node>
+
+  <!-- Policy Engine Node -->
+  <node name="policy_engine_node" pkg="repair_policy" type="policy_engine_node.py" output="screen">
+    <param name="min_confusion_score" value="$(arg min_confusion_score)" />
+    <param name="min_confidence" value="$(arg min_confidence)" />
+    <param name="max_repair_attempts" value="$(arg max_repair_attempts)" />
+    <param name="repair_cooldown" value="$(arg repair_cooldown)" />
+  </node>
+</launch>
