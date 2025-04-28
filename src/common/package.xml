@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>common</name>
+  <version>0.1.0</version>
+  <description>
+    Common utilities for the QTrobot confusion detection system
+  </description>
+
+  <maintainer email="user@example.com">Your Name</maintainer>
+  <license>MIT</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  
+  <build_depend>rospy</build_depend>
+  <build_depend>std_msgs</build_depend>
+  
+  <exec_depend>rospy</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>python-opencv</exec_depend>
+  <exec_depend>python-numpy</exec_depend>
+  <exec_depend>python-matplotlib</exec_depend>
+
+  <export>
+  </export>
+</package>

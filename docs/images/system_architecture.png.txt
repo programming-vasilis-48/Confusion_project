@@ -1,0 +1,13 @@
+This is a placeholder for the system_architecture.png file.
+
+To generate the actual PNG image:
+
+1. Use the Mermaid diagram in system_architecture.md
+2. Go to https://mermaid.live/ and paste the diagram code
+3. Export as PNG and save it as system_architecture.png in this directory
+
+Alternatively, if you have Mermaid CLI installed:
+
+```bash
+npm install -g @mermaid-js/mermaid-cli
+mmdc -i docs/images/system_architecture.md -o docs/images/system_architecture.png

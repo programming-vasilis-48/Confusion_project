@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Load configuration parameters -->
+  <arg name="config_file" default="$(find confusion_detection)/../../../config/detection_params.yaml"/>
+  <rosparam command="load" file="$(arg config_file)"/>
+  
+  <!-- Face detector node -->
+  <node name="face_detector_node" pkg="confusion_detection" type="face_detector_node.py" output="screen">
+    <param name="detection_frequency" value="$(eval rosparam.get('/face_detection/detection_frequency'))"/>
+    <param name="face_detection_threshold" value="$(eval rosparam.get('/face_detection/face_detection_threshold'))"/>
+    <param name="model_path" value="$(eval rosparam.get('/face_detection/model_path'))"/>
+  </node>
+  
+  <!-- Feature extractor node -->
+  <node name="feature_extractor_node" pkg="confusion_detection" type="feature_extractor_node.py" output="screen">
+    <param name="processing_frequency" value="$(eval rosparam.get('/feature_extraction/processing_frequency'))"/>
+    <param name="model_path" value="$(eval rosparam.get('/feature_extraction/model_path'))"/>
+  </node>
+  
+  <!-- Confusion classifier node -->
+  <node name="confusion_classifier_node" pkg="confusion_detection" type="confusion_classifier_node.py" output="screen">
+    <param name="classification_frequency" value="$(eval rosparam.get('/confusion_classification/classification_frequency'))"/>
+    <param name="confusion_threshold" value="$(eval rosparam.get('/confusion_classification/confusion_threshold'))"/>
+    <param name="min_confidence" value="$(eval rosparam.get('/confusion_classification/min_confidence'))"/>
+    <param name="model_path" value="$(eval rosparam.get('/confusion_classification/model_path'))"/>
+    <param name="temporal_window" value="$(eval rosparam.get('/confusion_classification/temporal_window'))"/>
+  </node>
+  
+  <!-- Visualization (optional) -->
+  <arg name="enable_visualization" default="true"/>
+  <group if="$(arg enable_visualization)">
+    <node name="rqt_image_view" pkg="rqt_image_view" type="rqt_image_view" output="screen"/>
+  </group>
+  
+  <!-- Logging (optional) -->
+  <arg name="enable_logging" default="true"/>
+  <group if="$(arg enable_logging)">
+    <node name="rosbag_record" pkg="rosbag" type="record" args="-o $(find confusion_detection)/../../../logs/confusion_detection /vision/face_features /vision/processed_features /human/confusion_state" if="$(arg enable_logging)"/>
+  </group>
+</launch>

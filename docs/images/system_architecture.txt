@@ -1,0 +1,47 @@
++-------------------+
+                                 |                   |
+                                 |  QTrobot          |
+                                 |  Hardware         |
+                                 |                   |
+                                 +--------+----------+
+                                          |
+                                          v
++-------------------+            +-------------------+            +-------------------+
+|                   |            |                   |            |                   |
+|  Sensor Input     +----------->+  Confusion        +----------->+  Repair Policy    |
+|  Processing       |            |  Detection        |            |  Engine           |
+|                   |            |                   |            |                   |
++-------------------+            +-------------------+            +--------+----------+
+                                                                           |
+                                                                           |
+                                                                           v
+                                                                  +-------------------+
+                                                                  |                   |
+                                                                  |  Robot            |
+                                                                  |  Behavior         |
+                                                                  |                   |
+                                                                  +-------------------+
+
++-----------------------------------------------------------+
+|                                                           |
+|                  Data Flow                                |
+|                                                           |
+| 1. Camera/Microphone -> Sensor Input Processing           |
+| 2. Sensor Input -> Feature Extraction                     |
+| 3. Features -> Confusion Detection                        |
+| 4. Confusion State -> Repair Policy Engine                |
+| 5. Repair Strategy -> Robot Behavior                      |
+|                                                           |
++-----------------------------------------------------------+
+
++-----------------------------------------------------------+
+|                                                           |
+|                  Key Components                           |
+|                                                           |
+| - Face Detection (OpenCV, Intel RealSense SDK)            |
+| - Feature Extraction (Facial Action Units)                |
+| - Confusion Classification (Rule-based/LSTM)              |
+| - Repair Strategy Selection                               |
+| - Evaluation Framework                                    |
+|                                                           |
++-----------------------------------------------------------+

@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Arguments -->
+  <arg name="detection_config" default="$(find confusion_detection)/../../../config/detection_params.yaml"/>
+  <arg name="repair_config" default="$(find repair_policy)/../../../config/repair_policies.yaml"/>
+  <arg name="enable_visualization" default="true"/>
+  <arg name="enable_logging" default="true"/>
+  
+  <!-- Launch confusion detection system -->
+  <include file="$(find confusion_detection)/launch/confusion_detection.launch">
+    <arg name="config_file" value="$(arg detection_config)"/>
+    <arg name="enable_visualization" value="$(arg enable_visualization)"/>
+    <arg name="enable_logging" value="$(arg enable_logging)"/>
+  </include>
+  
+  <!-- Launch repair policy system -->
+  <include file="$(find repair_policy)/launch/repair_policy.launch">
+    <arg name="config_file" value="$(arg repair_config)"/>
+    <arg name="enable_logging" value="$(arg enable_logging)"/>
+  </include>
+  
+  <!-- Launch RViz for visualization (optional) -->
+  <group if="$(arg enable_visualization)">
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find confusion_detection)/../../../config/confusion_system.rviz" if="$(arg enable_visualization)"/>
+  </group>
+  
+  <!-- Create log directory -->
+  <node name="create_log_dir" pkg="rosbash" type="rosrun" args="rosbash mkdir -p $(find confusion_detection)/../../../logs" if="$(arg enable_logging)"/>
+</launch>

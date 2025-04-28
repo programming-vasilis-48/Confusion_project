@@ -1,0 +1,55 @@
+# Configuration parameters for the confusion detection system
+
+# Face detection parameters
+face_detection:
+  detection_frequency: 10  # Hz
+  face_detection_threshold: 0.7
+  model_path: "models/face_detection/face_detection_model.onnx"
+  min_face_size: [30, 30]  # Minimum face size in pixels [width, height]
+  scale_factor: 1.1  # Scale factor for face detection
+
+# Feature extraction parameters
+feature_extraction:
+  processing_frequency: 10  # Hz
+  model_path: "models/face_detection/au_detection_model.onnx"
+  feature_types:
+    - "action_units"
+    - "head_pose"
+    - "eye_gaze"
+
+# Confusion classification parameters
+confusion_classification:
+  classification_frequency: 5  # Hz
+  confusion_threshold: 0.6
+  min_confidence: 0.7
+  model_path: "models/confusion_detection/confusion_classifier_model.onnx"
+  temporal_window: 3.0  # seconds
+  
+  # Weights for different features in rule-based classification
+  feature_weights:
+    AU01: 0.1  # Inner Brow Raiser
+    AU02: 0.05  # Outer Brow Raiser
+    AU04: 0.4  # Brow Lowerer
+    AU07: 0.2  # Lid Tightener
+    AU14: 0.1  # Dimpler
+    AU24: 0.2  # Lip Pressor
+    head_pitch: 0.05
+    head_yaw: 0.05
+    head_roll: 0.05
+    gaze_x: 0.05
+    gaze_y: 0.05
+    gaze_z: 0.05
+
+# Camera parameters
+camera:
+  topic: "/camera/rgb/image_raw"
+  frame_rate: 30  # Hz
+  resolution: [640, 480]  # [width, height]
+
+# Logging parameters
+logging:
+  log_level: "info"  # debug, info, warn, error
+  log_directory: "logs"
+  save_images: true
+  image_directory: "logs/images"
+  save_frequency: 1  # Hz (how often to save images)

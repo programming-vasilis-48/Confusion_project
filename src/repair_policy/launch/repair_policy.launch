@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Load configuration parameters -->
+  <arg name="config_file" default="$(find repair_policy)/../../../config/repair_policies.yaml"/>
+  <rosparam command="load" file="$(arg config_file)"/>
+  
+  <!-- Policy engine node -->
+  <node name="policy_engine_node" pkg="repair_policy" type="policy_engine_node.py" output="screen">
+    <param name="config_path" value="$(arg config_file)"/>
+    <param name="min_confusion_score" value="$(eval rosparam.get('/policy_engine/min_confusion_score'))"/>
+    <param name="min_confidence" value="$(eval rosparam.get('/policy_engine/min_confidence'))"/>
+    <param name="max_repair_attempts" value="$(eval rosparam.get('/policy_engine/max_repair_attempts'))"/>
+    <param name="repair_cooldown" value="$(eval rosparam.get('/policy_engine/repair_cooldown'))"/>
+  </node>
+  
+  <!-- Logging (optional) -->
+  <arg name="enable_logging" default="true"/>
+  <group if="$(arg enable_logging)">
+    <node name="rosbag_record" pkg="rosbag" type="record" args="-o $(find repair_policy)/../../../logs/repair_policy /human/confusion_state /robot/speech/say /robot/behavior/trigger /repair_policy/get_strategy" if="$(arg enable_logging)"/>
+  </group>
+</launch>

@@ -1,0 +1,87 @@
+# Configuration parameters for the repair policy system
+
+# Policy engine parameters
+policy_engine:
+  min_confusion_score: 0.6
+  min_confidence: 0.7
+  max_repair_attempts: 3
+  repair_cooldown: 5.0  # seconds
+  escalation_threshold: 30.0  # seconds of persistent confusion before escalation
+
+# Repair strategy parameters
+repair_strategies:
+  # Clarification strategy
+  clarification:
+    priority: 0.8
+    initial_success_rate: 0.7
+    templates:
+      - "Let me clarify what I meant. {}"
+      - "To be more clear, {}"
+      - "What I'm trying to say is {}"
+      - "Let me rephrase that. {}"
+      - "In other words, {}"
+
+  # Simplification strategy
+  simplification:
+    priority: 0.7
+    initial_success_rate: 0.6
+    templates:
+      - "Let me simplify this. {}"
+      - "To put it simply, {}"
+      - "In simpler terms, {}"
+      - "The basic idea is {}"
+      - "To break it down, {}"
+
+  # Visual support strategy
+  visual_support:
+    priority: 0.6
+    initial_success_rate: 0.8
+    templates:
+      - "Let me show you a visual to help explain. {}"
+      - "Here's an image that might help. {}"
+      - "Sometimes a picture helps. {}"
+      - "Let me illustrate this. {}"
+      - "This visual should make it clearer. {}"
+    visual_assets_directory: "assets/visuals"
+
+  # Engagement check strategy
+  engagement_check:
+    priority: 0.5
+    initial_success_rate: 0.5
+    templates:
+      - "Does that make sense to you?"
+      - "Are you following me so far?"
+      - "Is this clear, or should I explain differently?"
+      - "How does that sound to you?"
+      - "Do you understand, or would you like me to clarify?"
+
+  # Topic shift strategy
+  topic_shift:
+    priority: 0.3
+    initial_success_rate: 0.4
+    templates:
+      - "Let's try a different approach. {}"
+      - "Maybe we should move on to something else. {}"
+      - "Let's switch gears for a moment. {}"
+      - "I think we should try a different topic. {}"
+      - "Let's take a step back and look at this differently. {}"
+    min_confusion_duration: 10.0  # seconds
+    min_previous_attempts: 3
+
+# Robot behavior parameters
+robot_behavior:
+  speech_topic: "/robot/speech/say"
+  behavior_topic: "/robot/behavior/trigger"
+  behaviors:
+    confused_detected: "confused_detected"
+    repair_initiated: "repair_initiated"
+    escalate_to_human: "escalate_to_human"
+    repair_successful: "repair_successful"
+
+# Logging parameters
+logging:
+  log_level: "info"  # debug, info, warn, error
+  log_directory: "logs"
+  log_repair_strategies: true
+  log_conversation: true
+  max_conversation_history: 10
